@@ -1,0 +1,1 @@
+<view class="content"><navbar vue-id="f8c7e56e-1" bind:__l="__l"></navbar><tab vue-id="f8c7e56e-2" list="{{tabList}}" bind:__l="__l"></tab><view class="bodyScroll"><scroll-view class="list-scroll" scroll-y="true"><view><block wx:for="{{100}}" wx:for-item="item" wx:for-index="__i0__" wx:key="*this"><view>{{item}}</view></block></view></scroll-view></view></view>
