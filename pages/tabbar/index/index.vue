@@ -50,6 +50,7 @@
 			change(current){
 				// console.log("swiper",current)
 				this.tabIndex = current
+				this.activeIndex = current
 			},
 			// tab -> swiper
 			tab({data,index}){

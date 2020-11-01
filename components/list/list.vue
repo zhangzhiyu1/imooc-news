@@ -1,7 +1,7 @@
 <template>
 	<swiper class="home-swiper" :current="activeIndex" @change="changeSwiper">
 		<swiper-item v-for="(item, index) in tab" :key = "index" class="swiper-item"> 
-			<listItem :list="listCatchData[index]" @loadmore="loadmore" ></listItem>
+			<listItem :list="listCatchData[index]" :load="load[index]" @loadmore="loadmore" ></listItem>
 		</swiper-item>
 		<!-- <swiper-item class="swiper-item">
 			<listItem></listItem>
@@ -33,7 +33,7 @@
 			return {
 				list:[],
 				listCatchData:{},
-				page:1,
+				load:{},
 				pageSize:5
 			};
 		},
@@ -53,7 +53,8 @@
 		methods:{
 			// 上啦事件
 			loadmore(){
-				this.page++;
+				if(this.load[this.activeIndex].loading === 'noMore') return
+				this.load[this.activeIndex].page++;
 				console.log('触发上拉');
 				this.getList(this.activeIndex)
 			},
@@ -69,15 +70,31 @@
 				
 			},
 			getList(current){
-				console.log(this.page)
+				if(!this.load[current]){
+					this.load[current]={
+						page: 1 ,
+						loading:'loading'
+					}
+					
+				}
+				console.log(this.load[current].page)
 				this.$api.get_list({
 					name:this.tab[current].name,
-					page:this.page,
+					page:this.load[current].page,
 					pageSize:this.pageSize
 				})
 				.then(res=>{
 					const {data} = res
 					console.log('请求数据：',data);
+					if(data.length === 0 ){
+						let oldLoad = {}
+						oldLoad.loading = 'noMore';
+						oldLoad.page = this.load[current].page
+						this.$set(this.load,current,oldLoad)
+						// 强制渲染页面
+						this.$forceUpdate()
+						return
+					}
 					// 初次渲染是个空数组==undefind  需要处理一下判断为空
 					let oldList = this.listCatchData[current] || []
 					oldList.push(...data)
