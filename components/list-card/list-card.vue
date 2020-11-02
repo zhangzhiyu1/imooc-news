@@ -10,6 +10,10 @@
 					<text>
 						{{item.title}}
 					</text>
+					<!-- 收藏按钮 -->
+					<view class="icons">
+						<uni-icons type="heart" color="#f07373" size="20"></uni-icons>
+					</view>
 				</view>
 				<view class="listCard-content-des">
 					<view class="listCard-content-des-label">
@@ -134,6 +138,17 @@
 						display: -webkit-box;
 						-webkit-line-clamp:2;
 						-webkit-box-orient:vertical;
+					}
+					.icons{
+						position: absolute;
+						right:0px;
+						top:0px;
+						display:flex;
+						justify-content: center;
+						align-items: center;
+						width:20px;
+						height:20px;
+						
 					}
 				}
 				.listCard-content-des{
