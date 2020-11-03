@@ -11,9 +11,7 @@
 						{{item.title}}
 					</text>
 					<!-- 收藏按钮 -->
-					<view class="icons">
-						<uni-icons type="heart" color="#f07373" size="20"></uni-icons>
-					</view>
+					<likes :item="item"></likes>
 				</view>
 				<view class="listCard-content-des">
 					<view class="listCard-content-des-label">
@@ -32,6 +30,7 @@
 					<text>
 						{{item.title}}
 					</text>
+					<likes :item="item"></likes>
 				</view>
 				<view class="listCard-image">
 					<view class="listCard-image-item" v-if="imgIndex<3"  v-for="(img,imgIndex) in item.cover"  :key="imgIndex">
@@ -58,6 +57,7 @@
 					<text>
 						{{item.title}}
 					</text>
+					<likes :item="item"></likes>
 				</view>
 				
 				<view class="listCard-content-des">
@@ -132,7 +132,10 @@
 					color: #333;
 					font-weight: 400;
 					line-height: 1.2;
+					position: relative;
 					text {
+						padding-right:20px;
+						box-sizing: border-box;
 						overflow: hidden;
 						text-overflow: ellipsis;
 						display: -webkit-box;
