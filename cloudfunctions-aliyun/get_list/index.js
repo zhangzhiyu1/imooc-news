@@ -39,7 +39,7 @@ exports.main = async (event, context) => {
 	.aggregate()
 	// 2. 添加收藏的字段
 	.addFields({
-		is_like:$.in(['$_id'])
+		is_like:$.in(['$_id',article_likes_ids])
 	})
 	.match(matchObj)
 	.project({
