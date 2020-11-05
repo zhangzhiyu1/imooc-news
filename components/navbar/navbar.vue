@@ -17,7 +17,7 @@
 				</view>
 				<!-- 搜索页 -->
 				<view v-else class="navbar-search">
-					<input type="text" class="navbar-search-text" value="" placeholder="请输入您要搜索的内容">
+					<input type="text" class="navbar-search-text" v-model="val" value="" @input="inputChange" placeholder="请输入您要搜索的内容">
 				</view>
 			</view>
 			
@@ -40,6 +40,7 @@
 				statusBarHeight:20,
 				navBarHeight:45,
 				windowWidth:375,
+				val:'',
 				
 			}
 		},
@@ -49,7 +50,13 @@
 				uni.navigateTo({
 					url:'/pages/home-search/home-search'
 				})
+			},
+			// input 事件
+			inputChange(e){
+				const {value} = e.detail;
+				this.$emit('input1',value)
 			}
+			
 		},
 		created() {
 			// 获取手机系统信息
