@@ -1,5 +1,5 @@
 <template>
-	<view class="listCard-box">
+	<view class="listCard-box" @click="open()">
 		<!-- 基础卡片 -->
 		<view v-if="item.mode==='base'" class="listCard">
 			<view class="listCard-image">
@@ -90,7 +90,10 @@
 			}
 		},
 		methods: {
-			
+			open(){
+				this.$emit('click',this.item)
+				console.log('打开详情页',this.item)
+			}
 		}
 	}
 </script>

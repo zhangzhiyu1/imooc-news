@@ -1,6 +1,6 @@
 <template>
 	<view class="home">
-		<navbar :isSearch="true" @input1="change"></navbar>
+		<navbar :isSearch="true" @input1="change" v-model="value"></navbar>
 		<view class="home-list">
 			<view v-if="is_history" class="label-box">
 				<view class="label-header">
@@ -8,7 +8,7 @@
 					<view class="label-clear">清空</view>
 				</view>
 				<view v-if="historyLists.length > 0" class="label-content">
-					<view class="label-content-item" v-for="(item,index) in historyLists" :key="index">
+					<view class="label-content-item" v-for="(item,index) in historyLists" :key="index" @click="openHistory(item)">
 						{{item.name}}
 					</view>
 				</view>
@@ -19,7 +19,12 @@
 			</view>
 
 			<list-scroll v-else class="list-scroll">
-				<list-card mode="base" :item="item" v-for="item in searchList" :key="item._id"></list-card>
+				<view v-if="searchList.length > 0 "> 
+					<list-card mode="base" :item="item" v-for="item in searchList" :key="item._id" @click="setHistory()"></list-card>
+				</view>
+				<view v-else class="no-data">
+					没有搜索到相关数据
+				</view>
 				
 			</list-scroll>
 			
@@ -32,8 +37,9 @@
 	export default {
 		data() {
 			return {
-				is_history:false,
-				searchList:[]
+				is_history:true,
+				searchList:[],
+				value:''
 			}
 		},
 		computed:{
@@ -43,9 +49,12 @@
 			// this.getSearch()
 		},
 		methods: {
+			// 输入框输入
 			change(value){
+				this.value = value
 				// this.getList(value)
 				// console.log('接收的value',value)
+				// ！删除之后还是请求的上一个ajax
 				if(!value){
 					clearTimeout(this.timer)
 					this.mark = false
@@ -63,13 +72,15 @@
 					
 				}
 			},
-			testBtn(){
-				this.$store.dispatch('set_history',{
-					name:'test'
-				})
-			},
+			
+			// 获取search数据
 			getSearch(value){
-				
+				if(!value){
+					this.searchList = []
+					this.is_history = true
+					return 
+				}
+				this.is_history = false
 				this.$api.get_search({
 					value
 				})
@@ -82,6 +93,19 @@
 					
 				})
 			},
+			// 保存历史数据
+			setHistory(){
+				console.log(this.value)
+				this.$store.dispatch('set_history',{
+					name:this.value
+				})
+			},
+			// 根据历史数据搜索
+			openHistory(item){
+				console.log(item)
+				this.value = item.name
+				this.getSearch(this.value)
+			}
 		}
 	}
 </script>

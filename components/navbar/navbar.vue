@@ -30,9 +30,18 @@
 <script>
 	export default {
 		props:{
+			value:{
+				type:[String,Number],
+				default:''
+			},
 			isSearch:{
 				type:Boolean,
 				default:false
+			}
+		},
+		watch:{
+			value(newVal){
+				this.val = newVal
 			}
 		},
 		data() {
