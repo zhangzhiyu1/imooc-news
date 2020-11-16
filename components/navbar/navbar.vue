@@ -5,7 +5,7 @@
 			<view :style="{height:statusBarHeight+'px'}"></view>
 			<!-- 导航栏 -->
 			<view class="navbar-content" :class="{search:isSearch}" :style="{height:navBarHeight+'px',width:windowWidth+'px'}" @click.stop="open">
-				<view class="navbar-content-search-icons">
+				<view  v-if="isSearch" class="navbar-content-search-icons" @click="back">
 					<uni-icons type="back" size="22" color="#fff"></uni-icons>
 				</view>
 				<!-- 非搜索页 -->
@@ -64,6 +64,19 @@
 			inputChange(e){
 				const {value} = e.detail;
 				this.$emit('input1',value)
+			},
+			// 返回按钮--搜索页面
+			back(){
+				// 打开新页面而且此页面未关闭
+				// uni.navigateTo({
+					
+				// })
+				// 这是返回上一个页面--这个暂时保留，，因为我们的页面栈之前没有任何页面，它会跳转到当前页面
+				// uni.navigateBack()
+				// 去跳转我们的tabbar
+				uni.switchTab({
+					url:'/pages/tabbar/index/index'
+				})
 			}
 			
 		},

@@ -5,9 +5,10 @@
 			<view v-if="is_history" class="label-box">
 				<view class="label-header">
 					<view class="label-title">搜索历史</view>
-					<view class="label-clear">清空</view>
+					<view class="label-clear" @click="clear">清空</view>
 				</view>
 				<view v-if="historyLists.length > 0" class="label-content">
+					
 					<view class="label-content-item" v-for="(item,index) in historyLists" :key="index" @click="openHistory(item)">
 						{{item.name}}
 					</view>
@@ -19,10 +20,11 @@
 			</view>
 
 			<list-scroll v-else class="list-scroll">
+				<uni-load-more v-if="loading" status="loading" iconType="snow"></uni-load-more>
 				<view v-if="searchList.length > 0 "> 
 					<list-card mode="base" :item="item" v-for="item in searchList" :key="item._id" @click="setHistory()"></list-card>
 				</view>
-				<view v-else class="no-data">
+				<view v-if="searchList.length === 0 && !loading " class="no-data">
 					没有搜索到相关数据
 				</view>
 				
@@ -39,7 +41,9 @@
 			return {
 				is_history:true,
 				searchList:[],
-				value:''
+				value:'',
+				// 判断是否加载 -- 在请求数据的时候让它显示
+				loading:false
 			}
 		},
 		computed:{
@@ -81,6 +85,7 @@
 					return 
 				}
 				this.is_history = false
+				this.loading = true
 				this.$api.get_search({
 					value
 				})
@@ -90,7 +95,10 @@
 					} = res
 					console.log(res)
 					this.searchList = data
-					
+					this.loading = false
+				})
+				.catch(()=>{
+					this.loading = false
 				})
 			},
 			// 保存历史数据
@@ -105,7 +113,14 @@
 				console.log(item)
 				this.value = item.name
 				this.getSearch(this.value)
+			},
+			clear(){
+				this.$store.dispatch('clearHistory')
+				uni.showToast({
+					title:'清空完成'
+				})
 			}
+			
 		}
 	}
 </script>
@@ -120,7 +135,6 @@
 		display: flex;
 		flex-direction: column;
 		flex:1;
-		border:1px solid red;
 		.home-list{
 			.label-box{
 				background-color: #fff;
