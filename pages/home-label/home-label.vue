@@ -75,7 +75,11 @@
 					color:#666;
 					position: relative;
 					.icons-close{
-						
+						position: absolute;
+						right:-8px;
+						top:-8px;
+						background-color: #fff;
+						border-radius: 50%;
 					}
 				}
 			}
