@@ -6,18 +6,27 @@ exports.main = async (event, context) => {
 	// 获取label表的数据
 	// let label = await db.collection('label').get()
 	const {
-		user_id
+		user_id,
+		type
 	} = event
+	let matchObj = {}
+	if(type !== 'all'){
+		matchObj = {
+			current: true
+		}
+	}
+	
 	// 拿到用户表
 	let userInfo = await db.collection('user').doc(user_id).get()
 	userInfo = userInfo.data[0]
 	// label_ids = ['label.id']
-	let label = await db.collecctionw('label')
+	let label = await db.collection('label')
 	.aggregate()
 	// 添加字段
 	.addFields({
-		current: $.in(['$_id',userInfo.$.ifNull([userInfo.label_ids,[]])])
+		current: $.in(['$_id',$.ifNull([userInfo.label_ids,[]])])
 	})
+	.match(matchObj)
 	.end()
 	
 	

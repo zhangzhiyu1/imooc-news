@@ -43,6 +43,8 @@
 					return
 				}
 				this.getList(this.activeIndex);
+				this.listCatchData = {}
+				this.load = {}
 			}
 		},
 		// onload 只能在页面里面写，created在组建里面写
@@ -101,6 +103,12 @@
 					// this.listCatchData[current] = data;
 					// $set 通知页面数据改变了  参数 (目标元素，下标，值) -- 数据懒加载
 					this.$set(this.listCatchData,current,oldList)
+					
+					
+					// 数据缓存会触发报错，在页面更新的时候缓存未删除--这里需要监听tab这个模块发生变化的时候进行处理
+					
+					
+					
 				})
 			},
 		}

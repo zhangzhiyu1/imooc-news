@@ -93,6 +93,9 @@
 			open(){
 				this.$emit('click',this.item)
 				console.log('打开详情页',this.item)
+				uni.navigateTo({
+					url:'/pages/home-detail/home-detail'
+				})
 			}
 		}
 	}

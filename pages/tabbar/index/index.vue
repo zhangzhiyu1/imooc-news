@@ -29,14 +29,18 @@
 		},
 		onLoad() {
 			this.getLabel();
+			uni.$on('labelChange',()=>{
+				this.tabList = [];
+				this.tabIndex = 0;
+				this.activeIndex = 0;
+				this.getLabel();
+			})
 		},
 		methods: {
 		
 			getLabel() {
 				console.log("$api",this.$api)
-				this.$api.get_label({
-					name:'get_label'
-				}).then(res => {
+				this.$api.get_label().then(res => {
 					
 					const {data} = res;
 					// console.log(data)
