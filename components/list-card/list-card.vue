@@ -92,9 +92,20 @@
 		methods: {
 			open(){
 				this.$emit('click',this.item)
-				console.log('打开详情页',this.item)
+				
+				const item = this.item;
+				const params = {
+					_id: item._id,
+					title: item.title, //文章标题
+					author: item.author,
+					create_time: item.create, // 
+					thumbs_up_count: item.thumbs_up_count, //点赞数量
+					browse_count: item.browse_count
+				}
+				console.log('打开详情页',item , params)
+				// 传参注意长度，url传参会被截断
 				uni.navigateTo({
-					url:'/pages/home-detail/home-detail'
+					url:'/pages/home-detail/home-detail?params='+JSON.stringify(params)
 				})
 			}
 		}

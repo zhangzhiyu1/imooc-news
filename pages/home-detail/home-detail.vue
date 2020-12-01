@@ -1,21 +1,21 @@
 <template>
 	<view class="detail">
 		<view class="detail-title">
-			我是一个前端开发者，我们需不需要学习nodejs？
+			{{formData.title}}
 		</view>
 		<view class="detail-header">
 			<view class="detail-header-logo">
-				<image src="../../static/logo.png" mode="aspectFill" alt="">
+				<image :src="formData.author.avatar" mode="aspectFill" alt="">
 				</image>
 			</view>
 			<view class="detail-header-content">
 				<view class="detail-header-content-title">
-					meHaotian
+					{{formData.author.author_name}}
 				</view>
 				<view class="detail-header-content-info">
-					<text>2020-03-21 12:21:1 </text>
-					<text>1234 浏览</text>
-					<text>1234 赞</text>
+					<text>{{formData.create_time}}</text>
+					<text>{{formData.browse_count}} 浏览</text>
+					<text>{{formData.thumbs_up_count}} 赞</text>
 				</view>
 			</view>
 		</view>
@@ -27,7 +27,17 @@
 				<text>谈谈你的看法</text>
 				<uni-icons type="compose" size="16" color="#F07373"></uni-icons>
 			</view>
-			<view class="detail-bottom-icons"></view>
+			<view class="detail-bottom-icons">
+				<view class="detail-bottom-icons-box">
+					<uni-icons type="chat" size="22" color="#F07373"></uni-icons>
+				</view>
+				<view class="detail-bottom-icons-box">
+					<uni-icons type="heart" size="22" color="#F07373"></uni-icons>
+				</view>
+				<view class="detail-bottom-icons-box">
+					<uni-icons type="hand-thumbsup" size="22" color="#F07373"></uni-icons>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -36,8 +46,12 @@
 	export default {
 		data() {
 			return {
-				
+				formData:{}
 			}
+		},
+		onLoad(query) {
+			console.log(JSON.parse(query.params))
+			this.formData = JSON.parse(query.params)
 		},
 		methods: {
 			
@@ -94,6 +108,47 @@
 			border:1px solid red;
 		}
 
+		.detail-bottom{
+			position: fixed;
+			bottom:0;
+			left:0px;
+			right:0px;
+			display: flex;
+			align-items: center;
+			height:44px;
+			border-top:1px #f5f5f5 solid;
+			background-color: #fff;
+			box-sizing: border-box;
+			.detail-bottom-input{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-left: 10px;
+				padding:0px 10px;
+				width:100%;
+				height:30px;
+				border:1px solid #ddd;
+				border-radius: 3px;
+				text{
+					font-size: 14px;
+					color:#999;
+				}
+			}
+			.detail-bottom-icons{
+				display: flex;
+				flex-shrink: 0;
+				padding:0px 10px;
+				.detail-bottom-icons-box{
+					position: relative;
+					display: flex;
+					align-items: center;
+					width: 44px;
+					text-align: center;
+					justify-content: center;
+				}
+			}
+		}
+		
 	}
 	
 </style>
