@@ -20,7 +20,9 @@
 			</view>
 		</view>
 		<view class="detail-content">
-			内容区域
+			<view class="detail-html">
+				{{formData.content}}
+			</view>
 		</view>
 		<view class="detail-bottom">
 			<view class="detail-bottom-input">
@@ -46,15 +48,27 @@
 	export default {
 		data() {
 			return {
-				formData:{}
+				formData:{},
+				pageDetail:''
 			}
 		},
 		onLoad(query) {
 			console.log(JSON.parse(query.params))
 			this.formData = JSON.parse(query.params)
+			this.getDetail()
 		},
 		methods: {
-			
+			// 获取详情信息
+			getDetail(){
+				this.$api.get_detail({
+					article_id: this.formData._id
+				}).then((res)=>{
+					console.log('res',res)
+					this.pageDetail = res;
+					const {data} = res;
+					this.formData = data
+				})
+			}
 		}
 	}
 </script>
@@ -104,8 +118,11 @@
 			}
 		}
 		.detail-content{
-			height:1000px;
-			border:1px solid red;
+			// height:1000px;
+			margin-top:20px;
+			.detail-html{
+				
+			}
 		}
 
 		.detail-bottom{
